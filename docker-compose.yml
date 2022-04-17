@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+    nodejsmysql:
+        image: mysql:8.0
+        container_name: nodejsmysql
+        restart: unless-stopped
+        tty: true
+        ports:
+            - 33069:3306
+        volumes:
+            - ./mysql:/var/lib/nodejsmysql
+        environment:
+            MYSQL_DATABASE: "test"
+            MYSQL_USER: "test"
+            MYSQL_PASSWORD: "secret"
+            MYSQL_ROOT_PASSWORD: "secret.root"
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        networks:
+            - nodejs
+
+networks:
+    nodejs:
