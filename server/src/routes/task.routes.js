@@ -10,6 +10,7 @@ const router = Router();
 router.get('/:id/',validate(taskValidation.show), taskController.show);
 router.get('/', taskController.index);
 router.post('/',validate(taskValidation.store), taskController.store);
-router.put('/:id/',validate(taskValidation.update), taskController.store);
+router.put('/:id/',validate(taskValidation.update), taskController.update);
+router.delete('/:id/',validate(taskValidation.destroy), taskController.destroy);
 
 export default router;

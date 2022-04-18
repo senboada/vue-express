@@ -10,7 +10,7 @@ TaskController.index = async (req, res) => {
 
 TaskController.show = async (req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const task = await taskService.get(id);
         res.status(httpStatus.OK).json(task);
     } catch (error) {
@@ -20,13 +20,13 @@ TaskController.show = async (req, res) => {
 
 TaskController.store = async (req, res) => {
     try {
-        const {title, end_date} = req.body;
-        const task = await taskService.create(title, end_date);
-        if(task){
+        const { title, end_date } = req.body;
+        const task = await taskService.create(title, new Date(end_date));
+        if (task) {
             res.status(httpStatus.CREATED).json('Record created successfully');
         }
         res.status(httpStatus.BAD_REQUEST);
-        
+
     } catch (error) {
         res.status(httpStatus.BAD_REQUEST).json(error.message);
     }
@@ -34,9 +34,8 @@ TaskController.store = async (req, res) => {
 
 TaskController.update = async (req, res) => {
     try {
-        const {id} = req.params;
-        const {title, end_date} = req.body;
-        const task = await taskService.get();
+        const { id } = req.params;
+        const task = await taskService.update(id, req.body);
         res.json(task);
     } catch (error) {
         res.status(httpStatus.BAD_REQUEST).json(error.message);
@@ -44,8 +43,13 @@ TaskController.update = async (req, res) => {
 };
 
 TaskController.destroy = async (req, res) => {
-    const task = await taskService.get();
-    res.json(task);
+    try {
+        const { id } = req.params;
+        const task = await taskService.delete(id);
+        res.json(task);
+    } catch (error) {
+        res.status(httpStatus.BAD_REQUEST).json(error.message);
+    }
 };
 
 export default TaskController;
