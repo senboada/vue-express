@@ -35,9 +35,12 @@ Task.update = async (id,data) => {
 };
 
 Task.delete = async (id) => {
-    const result = await db.task.delete({
+    const result = await db.task.update({
         where: {
             id,
+        },
+        data:{
+            status: 'deleted',
         },
     });
     return result;
